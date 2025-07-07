@@ -1,0 +1,26 @@
+## Interface: 110105, 110107
+## Title: PuG Kings
+## Author: LinguistBro
+## Notes: Player performance tracker for raids
+## Version: v0.6.7
+## SavedVariables: PuGKingsDB
+## IconTexture: Interface\AddOns\PuGKings\icons\pugkings.tga
+## RequiredDeps: Details
+
+Libs\LibStub\LibStub.lua
+Libs\LibDeflate\LibDeflate.lua
+Libs\LibSerialize\lib.xml
+Libs\AceGUI-3.0\AceGUI-3.0.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\AceComm-3.0\ChatThrottleLib.lua
+Libs\AceAddon-3.0\AceAddon-3.0.lua
+Libs\AceComm-3.0\AceComm-3.0.lua
+
+minimap.lua
+main.lua
+functions.lua
+community.lua
+lou.lua
+points.lua
+leaderboard.lua
+results.lua
