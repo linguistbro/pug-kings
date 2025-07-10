@@ -1,3 +1,12 @@
+## v0.6.8
+# Updates
+- Leaderboard frame is now resizable 
+- Healer points are now more similar to DPS points (for overall healing)
+- Tanks gets additional points for just being tanks (until further tank only stats are added)
+
+# Fixes
+- Fixed players not being awarded correctly for having food/flask/augment rune buffs and using potions
+
 ## v0.6.7
 # Updates
 - Points are awarded to players for having food/flask buffs and using tempered potions

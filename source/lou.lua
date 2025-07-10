@@ -49,7 +49,7 @@ function PugAddVexiePoints(combat, raidComp)
         return math.max(1, math.floor(amount / 2))
     end
     if PuGAddonDebug then print(PuGAddonDebugPrefix .. "Checking for interrupts.") end
-    if miscContainer then 
+    if miscContainer then
         for _, actor in miscContainer:ListActors() do
             if actor.interrupt and actor.interrupt > 0 then
                 if actor.interrompeu_oque then

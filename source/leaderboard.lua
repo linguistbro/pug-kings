@@ -36,7 +36,7 @@ local function GetSortedPlayersByPoints(raidCompName, currentFilter)
     local sorted = {}
     if raidCompName then
         for _, player in ipairs(raidCompName) do
-            if currentFilter == "ALL" or currentFilter == "PROG" then            
+            if currentFilter == "ALL" or currentFilter == "PROG" then
                 player.totalPoints = CalculateTotalPoints(player)
                 table.insert(sorted, player)
             elseif currentFilter == "HEALER" then 
@@ -157,7 +157,9 @@ function PuGShowLeaderboard(filter)
     if not leaderboardFrame then
         -- Create the main frame if it doesn't exist yet
         leaderboardFrame = CreateFrame("Frame", "PuGKingsLeaderboard", UIParent, "BasicFrameTemplateWithInset")
+        leaderboardFrame:SetResizeBounds(250, 300, 500, 600)
         leaderboardFrame:SetSize(250, 300)
+        leaderboardFrame:SetResizable(true)
         if PuGKingsDB and PuGKingsDB.leaderboardFramePosition then
             local point, relativePoint, xOfs, yOfs = unpack(PuGKingsDB.leaderboardFramePosition)
             leaderboardFrame:SetPoint(point, UIParent, relativePoint, xOfs, yOfs)
@@ -237,6 +239,24 @@ function PuGShowLeaderboard(filter)
             self:StopMovingOrSizing()
             local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
             PuGKingsDB.leaderboardFramePosition = {point, relativePoint, xOfs, yOfs}
+        end)
+
+        local resizeButton = CreateFrame("Button", nil, leaderboardFrame)
+        resizeButton:SetSize(16, 16)
+        resizeButton:SetPoint("BOTTOMRIGHT", leaderboardFrame, "BOTTOMRIGHT", -5, 5)
+        resizeButton:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
+        resizeButton:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
+        resizeButton:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down")
+        resizeButton:SetScript("OnMouseDown", function(self)
+            leaderboardFrame:StartSizing("BOTTOMRIGHT")
+        end)
+        resizeButton:SetScript("OnMouseUp", function(self)
+            leaderboardFrame:StopMovingOrSizing()
+            local point, relativeTo, relativePoint, xOfs, yOfs = leaderboardFrame:GetPoint()
+            PuGKingsDB.leaderboardFramePosition = {point, relativePoint, xOfs, yOfs}
+        end)
+        leaderboardFrame:SetScript("OnSizeChanged", function(self)
+            PuGKingsDB.leaderboardFrameSize = {self:GetWidth(), self:GetHeight()}        
         end)
 
 

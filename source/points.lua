@@ -7,6 +7,7 @@ local leaderboardFrame
 local PurgeDataFrame = nil
 local purgeAll = true
 local fightStartTime = nil 
+local unitsWithBuffs = {}
 
 local function StripRealm(name)
     return strsplit("-", name)  -- returns just the player name
@@ -409,7 +410,7 @@ local function AssignPoints(success)
         if player.damage > 0 then
             local newPoints = (#dps - i + 1)
 			if player.role == "TANK" then
-				newPoints = newPoints + 1
+				newPoints = newPoints + 2
 			end
 			PuGAddPointEntry(player, lastEncounterID, lastEncounterName, "Overall DPS", newPoints)
             --player.points = (player.points or 0) + newPoints
@@ -422,7 +423,7 @@ local function AssignPoints(success)
 	-- Normal assignment when we have healing data
 	for i, player in ipairs(healers) do
 		if player.healing > 0 then
-			local newPoints = (#healers - i + 1) * 4
+			local newPoints = (#dps - i + 1)
 			PuGAddPointEntry(player, lastEncounterID, lastEncounterName, "Overall Healing", newPoints)
 			--player.points = (player.points or 0) + newPoints
 		else
@@ -450,7 +451,8 @@ local function AssignPoints(success)
     elseif lastEncounterID == 3016 then
         PuGAddGallywixPoints(combat, pointsRaidComp)
     end
-    PuGCalculateBuffPoints(pointsRaidComp, combat, lastEncounterID, lastEncounterName)
+    PuGCheckPotionBuffs(pointsRaidComp, combat, lastEncounterID, lastEncounterName)
+    PuGGiveBuffPoints(pointsRaidComp, lastEncounterID, lastEncounterName, unitsWithBuffs)
 	SaveRaidDPSAndHealers()
 	PuGShowLeaderboard()
 end
@@ -611,6 +613,8 @@ startRaidFrame:SetScript("OnEvent", function(_, event, encounterID, encounterNam
         PuGCombatLogListener(true)
         PuGWoWChatListener(true)
         PuGLouListeners(encounterID)
+        unitsWithBuffs = {}  -- Reset buffs for the new encounter
+        unitsWithBuffs = PuGCalculateBuffPoints()
     end
 end)
 
